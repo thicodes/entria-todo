@@ -17,15 +17,6 @@
 # In the types.graphql you define your data schema
 types: ./types.graphql
 
-
-functions:
-  hello:
-    handler:
-      code: src/hello.js
-    type: resolver
-    schema: src/hello.graphql
-
-
 # Model/Relation permissions are used to limit the API access
 # To take the burden of thinking about those while development, we
 # preconfigured the wildcard ("*") permission that allows everything
