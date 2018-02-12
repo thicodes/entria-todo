@@ -1,0 +1,289 @@
+input CreateTodo {
+  isCompleted: Boolean
+  task: String!
+}
+
+input CreateTodoInput {
+  isCompleted: Boolean
+  task: String!
+  clientMutationId: String!
+}
+
+type CreateTodoPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  todo: Todo
+  edge: TodoEdge
+}
+
+scalar DateTime
+
+input DeleteTodoInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteTodoPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  todo: Todo
+  edge: TodoEdge
+  deletedId: ID
+}
+
+type Mutation {
+  createTodo(input: CreateTodoInput!): CreateTodoPayload
+  updateTodo(input: UpdateTodoInput!): UpdateTodoPayload
+  updateOrCreateTodo(input: UpdateOrCreateTodoInput!): UpdateOrCreateTodoPayload
+  deleteTodo(input: DeleteTodoInput!): DeleteTodoPayload
+}
+
+# An object with an ID
+interface Node {
+  # The id of the object.
+  id: ID!
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+type Query {
+  viewer: Viewer!
+
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+}
+
+type Todo implements Node {
+  createdAt: DateTime!
+  id: ID!
+  isCompleted: Boolean!
+  task: String!
+  updatedAt: DateTime!
+}
+
+# A connection to a list of items.
+type TodoConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [TodoEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type TodoEdge {
+  # The item at the end of the edge.
+  node: Todo!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input TodoFilter {
+  # Logical AND on all given filters.
+  AND: [TodoFilter!]
+
+  # Logical OR on all given filters.
+  OR: [TodoFilter!]
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  isCompleted: Boolean
+
+  # All values that are not equal to given value.
+  isCompleted_not: Boolean
+  task: String
+
+  # All values that are not equal to given value.
+  task_not: String
+
+  # All values that are contained in given list.
+  task_in: [String!]
+
+  # All values that are not contained in given list.
+  task_not_in: [String!]
+
+  # All values less than the given value.
+  task_lt: String
+
+  # All values less than or equal the given value.
+  task_lte: String
+
+  # All values greater than the given value.
+  task_gt: String
+
+  # All values greater than or equal the given value.
+  task_gte: String
+
+  # All values containing the given string.
+  task_contains: String
+
+  # All values not containing the given string.
+  task_not_contains: String
+
+  # All values starting with the given string.
+  task_starts_with: String
+
+  # All values not starting with the given string.
+  task_not_starts_with: String
+
+  # All values ending with the given string.
+  task_ends_with: String
+
+  # All values not ending with the given string.
+  task_not_ends_with: String
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+}
+
+enum TodoOrderBy {
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  isCompleted_ASC
+  isCompleted_DESC
+  task_ASC
+  task_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+input UpdateOrCreateTodoInput {
+  update: UpdateTodo!
+  create: CreateTodo!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateTodoPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  todo: Todo
+  edge: TodoEdge
+}
+
+input UpdateTodo {
+  id: ID!
+  isCompleted: Boolean
+  task: String
+}
+
+input UpdateTodoInput {
+  id: ID!
+  isCompleted: Boolean
+  task: String
+  clientMutationId: String!
+}
+
+type UpdateTodoPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  todo: Todo
+  edge: TodoEdge
+}
+
+# This is the famous Relay viewer object
+type Viewer {
+  allTodoes(filter: TodoFilter, orderBy: TodoOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): TodoConnection!
+  Todo(id: ID): Todo
+  id: ID!
+}
+

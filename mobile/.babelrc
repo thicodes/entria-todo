@@ -1,3 +1,9 @@
 {
-  "presets": ["react-native"]
+  "presets": [
+    "react-native",
+    "react-native-stage-0/decorator-support"
+  ],
+  "plugins": [
+    ["relay", {"schema": "data/schema.graphql"}]
+  ]
 }
